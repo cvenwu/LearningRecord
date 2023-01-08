@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <style>
+    /* :root { */
+    /* --docsifytabs-border-color: #275cb9; */
+    /* --docsifytabs-tab-highlight-color: rgb(0, 115, 128); */
+    /* } */
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: '',
+      repo: 'https://github.com/sivanWu0222/DocsifyTemplate', //指定是github的哪个仓库
+      loadSidebar: true, // 开启侧边栏
+      // subMaxLevel: 2, // 自定义侧边栏同时也可以开启目录功能
+      loadNavbar: true, // 开启导航栏
+      coverpage: true, //开启封面
+      // coverpage: ['/', '/first_dir/', '/second_dir/'],
+
+      // 文章最后更新日期
+      formatUpdated: '{MM}/{DD} {HH}:{mm}',
+      formatUpdated: function (time) {
+        return time;
+      },
+
+      // 字数统计与浏览量统计, https://github.com/827652549/docsify-count
+      count: {
+        countable: true,
+        position: 'top',
+        margin: '10px',
+        float: 'right',
+        fontsize: '0.9em',
+        color: 'rgb(90,90,90)',
+        language: 'chinese',
+        localization: {
+          words: "",
+          minute: ""
+        },
+        isExpected: true
+      },
+
+      tabs: {
+        persist: true,      // default
+        sync: true,      // default
+        theme: 'material', // default
+        tabComments: true,      // default
+        tabHeadings: true       // default
+      },
+
+      timeUpdater: {
+        text: ">最后更新时间: {docsify-updated}",
+        formatUpdated: "{YYYY}/{MM}/{DD}",
+        whereToPlace: "bottom",  // "top" or "bottom", default to "bottom"
+      },
+
+      // 阅读进度条插件
+      // progress: {
+      //   position: "top",
+      //   color: "var(--theme-color,#42b983)",
+      //   height: "3px",
+      // },
+
+      // 备案插件
+      // beian: {
+      //   ICP: "晋ICP备2022011935号",
+      //   NISMSP: {
+      //     number: "",
+      //     url: "",
+      //     id: ""
+      //   },
+      // },
+
+      // 分页插件
+      // pagination: {
+      //   previousText: '上一章节',
+      //   // or
+      //   nextText: {
+      //     '/en/': 'NEXT',
+      //     '/': '下一章节'
+      //   },
+      //   crossChapter: true,
+      //   crossChapterText: true,
+      // },
+
+      // // docsify-sidebar-collapse插件配置
+      // alias: {
+      //   '/.*/_sidebar.md': '/_sidebar.md',
+      // },
+      // subMaxLevel: 3,
+      // sidebarDisplayLevel: 1, // set sidebar display level
+
+      footer: {
+        copy: '<span>Copyright &copy; 2020-2023</span>',
+        auth: 'by <a src="http://www.yirufeng.top/">yirufeng</a>',
+        pre: '<hr/>',
+        style: 'text-align: center;',
+        class: 'className',
+      },
+    }
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <!-- 解析empoji表情 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
+  <!-- 字数统计 -->
+  <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
+  <!-- 复制到剪贴板 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+  <!-- 分页导航插件,将会导致首页无法下滑 -->
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script> -->
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script> -->
+  <!-- tab页 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+  <!-- 最后更新时间 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-updated/src/time-updater.min.js"></script>
+
+  <!-- 阅读进度条插件 -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/docsify-progress@latest/dist/progress.min.js"></script> -->
+  <!-- 备案插件 -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/docsify-beian@latest/dist/beian.min.js"></script> -->
+
+  <!-- 代码语法高亮 -->
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-php.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-go.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-c.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-cpp.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
+
+  <script src="//unpkg.com/docsify-footer-enh/dist/docsify-footer-enh.min.js"></script>
+
+</body>
+
+</html>
