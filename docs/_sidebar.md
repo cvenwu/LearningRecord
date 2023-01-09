@@ -11,7 +11,7 @@
     * [Golang](resources/programing_language/golang.md)
     * [Python](resources/programing_language/python.md)
   * 计算机基础知识
-    * [算法](resources/algo.md)
-    * [系统设计](resources/sys_design.md)
-    * [设计模式](resources/pattern.md)
+    * [算法](resources/others/algo.md)
+    * [系统设计](resources/others/sys_design.md)
+    * [设计模式](resources/others/pattern.md)
 * [值得阅读的文章](/articles_to_read.md)
