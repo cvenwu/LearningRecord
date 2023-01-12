@@ -4,7 +4,7 @@
 ### 课程介绍
 课程主要分如下三方面进行讲解：
 1. 语言深度：在Go语言上，希望通过调度将Go语言的代码以及底层实现串联起来，后面会讲解调试技巧（包括如何用Debugger调代码）、汇编以及反汇编（只讲工具，也就是用工具找到上层业务代码和底层实现之间的联系，不会很难，是业务关联到底层的手段，）、
-   1. 调度原理
+   1. 调度原理：为什么放在第一课就是因为可以对Go的**启动**和**执行流程**建立简单的宏观认识
    2. 调试技巧
    3. 汇编反汇编
    4. 内部数据结构实现
@@ -40,3 +40,56 @@
    1. 费曼学习法的理论：通过输出促进自己的输入，如果可以给别人把这件事情讲清楚，说明我们就明白了。
 8. 通过输出促进输入(博客、公众号、分享)，打造个人品牌，通过读者的反馈，循环提升自己的认知。
 9. 信息源：Github Trending、 reddit（有专门的语言社区）、 medium、 hacker news, morning paper(作者不干了），acm.org， oreily，国外的领域相关大会（如 OSDI,SOSP，VLDB)论文，国际一流公司的技术博客，YouTube 上的国外工程师演讲。（每天花十几分钟浏览一下）
+
+## 本节课程讲解内容目录
+1. 理解可执行文件
+2. Go进程的启动与初始化
+3. 调度组件与调度循环
+4. 处理阻塞
+5. 调度器的发展历史
+6. 与调度有关的常见问题
+
+## 第一部分：理解可执行文件
+
+### 环境安装
+
+本节课涉及到的工具都在Dockerfile里面，可以自行实验：
+
+1. 编写Dockerfile
+```Dockerfile
+FROM centos
+RUN yum install golang -y \
+    && yum install dlv -y \
+    && yum install binutils -y \
+    && yum install vim -y \
+    && yum install gdb -y
+```
+2. build镜像出来：`docker build -t test .`
+   1. `docker build`命令用于从Dockerfile文件中构建镜像，按照`docker build  -t ImageName:TagName dir`进行使用，之后可以通过命令`docker images`查看到Docker镜像
+   2. `-t`参数表示给镜像增加一个Tag
+   3. `.`表示Dockerfile文件所在目录，这里表示从当前目录的Dockerfile文件构建镜像
+3. 运行镜像并执行bash进程，此时就可以用到课程所需要的所有命令了：`docker run -it --rm test bash`
+
+
+### 编译过程：
+文本 -> 编译（文本代码 -> 目标文件(.o 或者 .a) ） -> 链接（目标文件合并成二进制可执行文件）
+
+
+`go build -x *.go` 可以观察到编译过程
+
+
+可执行文件在不同的操作系统上面的规范是不一样的
+
+
+|   Linux   |   Windows   |  Mac  |
+| ---- | ---- | ---- |
+|   ELF   |   PE   |   Mach-o   |
+
+Linux 的可执行文件 ELF(Executable and Linkable Format) 为例，ELF 由几部分构成：
+- ELF header
+- Section header
+- Sections
+
+这里我们只是想找到Go语言的入口，所以可以只用看ELF Header就可以了
+
+是Github上的一个同学做的二进制ELF文件的分布图（Linux、Windows、Mac都有），会详细讲解每一部分有哪些内容。
