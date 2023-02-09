@@ -93,3 +93,55 @@ Linux 的可执行文件 ELF(Executable and Linkable Format) 为例，ELF 由几
 这里我们只是想找到Go语言的入口，所以可以只用看ELF Header就可以了
 
 是Github上的一个同学做的二进制ELF文件的分布图（Linux、Windows、Mac都有），会详细讲解每一部分有哪些内容。
+
+对于找入口来说，只要在ELF Header中可以找到就行。
+
+
+操作系统执行可执行文件的步骤：（通过ELF Header中的内容找到相应的段，然后将二进制的段加载到内存中，最后通过entry point执行代码）
+1. 解析ELF Header
+2. 加载文件内容至内存
+3. 从entry point开始执行代码
+
+通过`readelf -h 可执行文件`找到可执行文件的头中的入口地址，
+
+dlv是Go语言专用的Debug工具，通过dlv打一个断点，新加载的地址就可以看到断点打在某一个函数
+![193614-KSn5Hb](https://cdn.jsdelivr.net/gh/sivanWu0222/UpicImageHosting@dev/uPic/2023-01-12/193614-KSn5Hb.png)
+
+
+生成的是二进制，里面只有汇编指令，有一个通用的PC寄存器（PC 寄存器用于存放指令的地址），CPU靠PC寄存器指向的位置来执行代码，每执行完一条指令，PC寄存器都会指向下一条继续执行。
+
+
+汇编学习，通过国外有一个工程师做的游戏《人力资源机器》学习，玩这个游戏就是在学习汇编，可以学习到对模块的划分，
+
+前面讲解了计算机如何执行我们的程序，那么Go语言的二进制在执行起来之后是由什么组成的呢？由两部分组成，一部分是Go语言的runtime，另一部分是用户代码。
+
+Runtime describes software/instructions that are executed
+while your program is running, especially those
+instructions that you did not write explicitly, but are
+necessary for the proper execution of your code.
+Low-level languages Like C have very small (if any)
+runtime. More complex Languages Like Objective-C, which
+allows for dynamic message passing, have a much more
+extensive runtime.
+可以认为 runtime 是为了实现额外的功能，而在程序运行时自动
+加载/运行的一些模块。
+
+![211149-3jZq02](https://cdn.jsdelivr.net/gh/sivanWu0222/UpicImageHosting@dev/uPic/2023-01-12/211149-3jZq02.png)
+通过上面这个图我们可以看到Go二进制程序包括两部分：
+1. Go程序
+2. runtime
+
+
+Go代码通过goroutine创建、或者channel分配、或者内存分配与runtime进行交互，runtime负责管理提交的任务，然后和操作系统通过系统调用与线程调用进行交互。
+
+runtime相当于Go的Kernel
+
+Go语言的runtime主要包含如下模块：
+1. **Scheduler**：调度器管理所有的G，M，P，在后台执行调度循环。
+2. Netpoll：网络轮询负责管理网络 FD 相关的读写、就绪事。为了支持高并发，原生的在runtime中实现了网络fd的管理流程。
+3. Memory：当代码需要内存时，负责内存分配工作。
+4. Garbage：当内存不再需要时，负责回收内存。
+
+上面这些模块中，最核心的就是Scheduler，负责串联所有的runtime流程。这4个部分也是Go的4座大山，当我们跨过这4座大山之后，就没有特别难的东西了，再要去看其他代码就是一些lib的简单逻辑。
+
+今天我们就讲解scheduler，串联起来所有逻辑
